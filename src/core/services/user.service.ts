@@ -1,24 +1,14 @@
 import axios, { AxiosResponse } from 'axios';
 import { from, Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { InjectorService } from './injector.service';
-import { UserService } from './user.service';
 
-export class AuthService {
+export class UserService {
   public onLogin: Subject<boolean> = new Subject<boolean>();
-  private _userService: UserService;
 
-  constructor(private _context: InjectorService) {
-    console.log(_context.userService);
-    // console.log(_context.userService);
-    this._userService = _context.userService;
-    console.log(_context.userService);
-    console.log(_context);
-  }
+  constructor(context: any) {}
 
   // TODO: define the user object by either class or interface
   public signIn(): Observable<any> {
-    console.log(this._userService);
     const credentials = {
       email: 'christie@email.com',
       password: '12345678'
