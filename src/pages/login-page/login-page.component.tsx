@@ -20,6 +20,7 @@ class LoginPage extends Component<ILoginPageProp> {
     this._subscription = this.context.messageService.onMessage.subscribe(
       (message: IMessage<string>) => {
         console.log(message);
+        this.context.messageService.history.push('/team');
         // this.props.history.push('/other_location')
       }
     );
