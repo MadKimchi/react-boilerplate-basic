@@ -1,4 +1,4 @@
-import { Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { Component, FunctionComponent } from 'react';
 
 export class ModalService<T> {

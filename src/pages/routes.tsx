@@ -30,6 +30,7 @@ export default Routes;
  * https://reacttraining.com/react-router/web/example/route-config
  */
 function RouteWithSubRoutes(route: any) {
+  console.log(route);
   return (
     <Route
       path={route.path}

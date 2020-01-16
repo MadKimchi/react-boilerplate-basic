@@ -2,6 +2,7 @@ import { AuthService } from './auth.service';
 import { UserService } from './user.service';
 import { LanguageService } from './language.service';
 import { ModalService } from './modal.service';
+import { MessageService } from './message.service';
 
 export class InjectorService {
   // TODO: disable prettier for definite assignment assertion if the prettier community does not fix this
@@ -31,10 +32,19 @@ export class InjectorService {
   private _languageService!: LanguageService; // prettier-ignore
   public get languageService(): LanguageService {
     if (!this._languageService) {
-      this._languageService = new LanguageService(this);
+      this._languageService = new LanguageService();
     }
 
     return this._languageService;
+  }
+
+  private _messageService!: MessageService; // prettier-ignore
+  public get messageService(): MessageService {
+    if (!this._messageService) {
+      this._messageService = new MessageService();
+    }
+
+    return this._messageService;
   }
 
   // TODO: Move this to UIContext and all the other as DataContext

@@ -49,18 +49,25 @@ export const ModalDialog: FunctionComponent = (): ReactElement => {
   const modalService: ModalService<any> = useContext(ServiceContext)
     .modalService;
   console.log(component);
-  useLayoutEffect(() => {
-    const onInjectComponent = modalService.onInjection.subscribe(
-      (component: Component | FunctionComponent) => {
-        setComponent(component);
-        setOpen(true);
-      }
-    );
-  }, []);
+  useLayoutEffect(
+    () => {
+      const onInjectComponent = modalService.onInjection.subscribe(
+        (component: Component | FunctionComponent) => {
+          setComponent(component);
+          setOpen(true);
+        }
+      );
 
-  const handleOpen = () => {
-    setOpen(true);
-  };
+      return () => {
+        onInjectComponent.unsubscribe();
+      };
+    },
+    [modalService.onInjection]
+  );
+
+  // const handleOpen = () => {
+  //   setOpen(true);
+  // };
 
   const handleClose = () => {
     setOpen(false);
