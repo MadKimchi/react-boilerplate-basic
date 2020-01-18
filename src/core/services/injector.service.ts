@@ -3,6 +3,7 @@ import { UserService } from './user.service';
 import { LanguageService } from './language.service';
 import { ModalService } from './modal.service';
 import { MessageService } from './message.service';
+import { RouteService } from './route.service';
 
 export class InjectorService {
   // TODO: disable prettier for definite assignment assertion if the prettier community does not fix this
@@ -55,5 +56,13 @@ export class InjectorService {
     }
 
     return this._modalService;
+  }
+
+  private _routeService!: RouteService; // prettier-ignore
+  public get routeService(): RouteService {
+    if (!this._routeService) {
+      this._routeService = new RouteService(this);
+    }
+    return this._routeService;
   }
 }

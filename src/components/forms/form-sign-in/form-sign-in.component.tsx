@@ -6,11 +6,12 @@ import InputLabel from '@material-ui/core/InputLabel';
 // import Button from '@material-ui/core/Button';
 
 import { ServiceContext } from '../../../core/contexts/service.context';
+import { RouteEnum } from '../../../core/enums';
 // import { IMessage } from '../../../core/interfaces';
 
 export default function FormSignIn(): ReactElement {
   const [payload, setPayload] = useState({ email: '', password: '' });
-  const { authService, messageService } = useContext(ServiceContext);
+  const { authService, routeService } = useContext(ServiceContext);
 
   const onEmailChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     setPayload({ ...payload, email: event.target.value });
@@ -23,14 +24,9 @@ export default function FormSignIn(): ReactElement {
   };
 
   const onSignIn = (): void => {
-    console.log(payload);
     authService.signIn(payload).subscribe(isLoggedIn => {
       if (isLoggedIn) {
-        messageService.onMessage.next({
-          senderIdentifier: '',
-          receiverIdentifier: '',
-          data: 'working'
-        });
+        routeService.navigate(RouteEnum.team);
       }
     });
   };

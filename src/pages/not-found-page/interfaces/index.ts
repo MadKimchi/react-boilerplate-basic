@@ -1,1 +1,1 @@
-export * from './login-page-prop.interface';
+export * from './not-found-page-prop.interface';

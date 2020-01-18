@@ -1,14 +1,10 @@
-import React, { FunctionComponent, ReactElement, useContext } from 'react';
+import React, { FunctionComponent, ReactElement } from 'react';
 import Routes, { RenderRoutes } from './pages/routes';
-import { BrowserRouter as Router, useHistory } from 'react-router-dom';
-import { ServiceContext } from './core/contexts/service.context';
+import { BrowserRouter as Router } from 'react-router-dom';
 import { ModalDialog } from './components/modal-dialog/modal-dialog.component';
+import { ServiceContext } from './core/contexts/service.context';
 
 const App: FunctionComponent = (): ReactElement => {
-  // const authService: AuthService = useContext(ServiceContext).authService;
-  const { modalService } = useContext(ServiceContext);
-  console.log(modalService);
-  // const router = useContext(__RouterContext);
   return (
     <Router>
       <ModalDialog />

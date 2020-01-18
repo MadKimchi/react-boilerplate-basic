@@ -1,4 +1,4 @@
-import React, { Component, ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 
 import Card from '@material-ui/core/Card';
@@ -9,22 +9,12 @@ import { ILoginPageProp } from './interfaces';
 import { ServiceContext } from '../../core/contexts/service.context';
 import { Subscription } from 'rxjs';
 import FormSignIn from '../../components/forms/form-sign-in/form-sign-in.component';
-import { IMessage } from '../../core/interfaces';
+import { BasePage } from '../../components/base-page/base-page.component';
 
-class LoginPage extends Component<ILoginPageProp> {
+class LoginPage extends BasePage<ILoginPageProp> {
   static contextType = ServiceContext;
 
   private _subscription!: Subscription; // prettier-ignore
-
-  public componentDidMount(): void {
-    this._subscription = this.context.messageService.onMessage.subscribe(
-      (message: IMessage<string>) => {
-        console.log(message);
-        this.context.messageService.history.push('/team');
-        // this.props.history.push('/other_location')
-      }
-    );
-  }
 
   public componentWillUnmount(): void {
     this._subscription?.unsubscribe();
@@ -32,6 +22,8 @@ class LoginPage extends Component<ILoginPageProp> {
 
   public render(): ReactNode {
     const { classes } = this.props;
+    console.log('rerendering');
+    console.log(this.context.authService.isLoggedIn);
     return (
       <Card className={classes.card}>
         <FormSignIn />
