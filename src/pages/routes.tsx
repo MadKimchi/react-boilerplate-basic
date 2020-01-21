@@ -7,8 +7,6 @@ import { RouteEnum } from '../core/enums';
 import LoginPage from './login-page/login-page.component';
 import TeamPage from './team-page/team-page.component';
 import NotFoundPage from './not-found-page/not-found-page.component';
-import TestPage from './test-page/test-page.component';
-import Test2Page from './test-2-page/test-2-page.component';
 
 interface IRoutePropsWithAuth extends RouteProps {
   requireAuth?: boolean;
@@ -31,16 +29,6 @@ const Routes: IRoutePropsWithAuth[] = [
     exact: true,
     component: TeamPage,
     requireAuth: true
-  },
-  {
-    path: `/${RouteEnum.test}`,
-    exact: true,
-    component: TestPage
-  },
-  {
-    path: `/${RouteEnum.test2}`,
-    exact: true,
-    component: Test2Page
   },
   {
     path: `/*`,

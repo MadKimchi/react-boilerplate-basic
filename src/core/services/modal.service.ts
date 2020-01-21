@@ -1,10 +1,5 @@
 import { Subject } from 'rxjs';
-import {
-  Component,
-  FunctionComponent,
-  ReactElement,
-  ComponentType
-} from 'react';
+import { Component, FunctionComponent } from 'react';
 
 export class ModalService<T> {
   // **NOTE**:

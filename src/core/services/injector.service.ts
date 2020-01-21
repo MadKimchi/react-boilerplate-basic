@@ -5,11 +5,12 @@ import { ModalService } from './modal.service';
 import { MessageService } from './message.service';
 import { RouteService } from './route.service';
 import { HttpClient } from '../http/http-client.class';
+import { ErrorService } from './error.service';
 
 export class InjectorService {
   private _httpClient: HttpClient;
   constructor() {
-    this._httpClient = new HttpClient();
+    this._httpClient = new HttpClient(this);
   }
 
   // TODO: disable prettier for definite assignment assertion if the prettier community does not fix this
@@ -70,5 +71,14 @@ export class InjectorService {
       this._routeService = new RouteService(this);
     }
     return this._routeService;
+  }
+
+  private _errorService!: ErrorService; // prettier-ignore
+  public get errorService(): ErrorService {
+    if (!this._errorService) {
+      this._errorService = new ErrorService();
+    }
+
+    return this._errorService;
   }
 }

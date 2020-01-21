@@ -1,4 +1,9 @@
-export function RequestAuthInterceptor(request: Request, jwt: string): Request {
-  request.headers.append('Authorization', `Bearer ${jwt}`);
-  return request;
+import { AxiosRequestConfig } from 'axios';
+
+export function RequestAuthInterceptor(
+  requestConfig: AxiosRequestConfig,
+  jwt: string
+): AxiosRequestConfig {
+  requestConfig.headers['Authorization'] = `Bearer ${jwt}`;
+  return requestConfig;
 }

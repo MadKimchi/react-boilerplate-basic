@@ -1,17 +1,16 @@
 import React, {
-  useLayoutEffect,
   useContext,
   FunctionComponent,
   Component,
   ReactElement,
   useEffect
 } from 'react';
+
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
+
 import { ModalService } from '../../core/services/modal.service';
 import { ServiceContext } from '../../core/contexts/service.context';
-import { takeWhile } from 'rxjs/operators';
-import FormSignIn from '../forms/form-sign-in/form-sign-in.component';
 
 function getModalStyle() {
   const top = 50;

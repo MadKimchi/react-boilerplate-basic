@@ -1,6 +1,6 @@
-import { Subject, Subscription, Observable } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 import { IMessage } from '../interfaces';
-import { filter, map, takeWhile, finalize } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { IdentifierEnum } from '../enums';
 
 export class MessageService {
@@ -11,7 +11,7 @@ export class MessageService {
     receiver: IdentifierEnum,
     data: T
   ): void {
-    this.onMessage.next(<IMessage<T>>{ sender, receiver, data });
+    this.onMessage.next({ sender, receiver, data } as IMessage<T>);
   }
 
   public receiveMessage<T>(
