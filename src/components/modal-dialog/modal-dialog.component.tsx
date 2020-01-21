@@ -3,20 +3,19 @@ import React, {
   useContext,
   FunctionComponent,
   Component,
-  ReactElement
+  ReactElement,
+  useEffect
 } from 'react';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import { ModalService } from '../../core/services/modal.service';
 import { ServiceContext } from '../../core/contexts/service.context';
-
-function rand() {
-  return Math.round(Math.random() * 20) - 10;
-}
+import { takeWhile } from 'rxjs/operators';
+import FormSignIn from '../forms/form-sign-in/form-sign-in.component';
 
 function getModalStyle() {
-  const top = 50 + rand();
-  const left = 50 + rand();
+  const top = 50;
+  const left = 50;
 
   return {
     top: `${top}%`,
@@ -30,7 +29,7 @@ const useStyles = makeStyles((theme: Theme) =>
     paper: {
       position: 'absolute',
       width: 400,
-      // backgroundColor: theme.palette.background.paper,
+      backgroundColor: theme.palette.background.paper,
       border: '2px solid #000',
       boxShadow: theme.shadows[5],
       padding: theme.spacing(2, 4, 3)
@@ -40,7 +39,6 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export const ModalDialog: FunctionComponent = (): ReactElement => {
   const classes = useStyles();
-  // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = React.useState(getModalStyle);
   const [open, setOpen] = React.useState(false);
   const [component, setComponent] = React.useState({});
@@ -48,8 +46,8 @@ export const ModalDialog: FunctionComponent = (): ReactElement => {
   // exceptional here with type any.
   const modalService: ModalService<any> = useContext(ServiceContext)
     .modalService;
-  console.log(component);
-  useLayoutEffect(
+
+  useEffect(
     () => {
       const onInjectComponent = modalService.onInjection.subscribe(
         (component: Component | FunctionComponent) => {
@@ -65,13 +63,10 @@ export const ModalDialog: FunctionComponent = (): ReactElement => {
     [modalService.onInjection]
   );
 
-  // const handleOpen = () => {
-  //   setOpen(true);
-  // };
-
   const handleClose = () => {
     setOpen(false);
     setComponent({});
+    modalService.isModalOpen = false;
   };
 
   return (

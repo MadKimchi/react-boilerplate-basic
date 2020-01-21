@@ -1,5 +1,7 @@
+import { IdentifierEnum } from '../enums';
+
 export interface IMessage<T> {
-  receiverIdentifier: string;
-  senderIdentifier: string;
+  sender: IdentifierEnum;
+  receiver: IdentifierEnum;
   data: T;
 }

@@ -4,8 +4,14 @@ import { LanguageService } from './language.service';
 import { ModalService } from './modal.service';
 import { MessageService } from './message.service';
 import { RouteService } from './route.service';
+import { HttpClient } from '../http/http-client.class';
 
 export class InjectorService {
+  private _httpClient: HttpClient;
+  constructor() {
+    this._httpClient = new HttpClient();
+  }
+
   // TODO: disable prettier for definite assignment assertion if the prettier community does not fix this
   // Resources:
   // https://palantir.github.io/tslint/rules/no-non-null-assertion/
@@ -15,7 +21,7 @@ export class InjectorService {
   private _authService!: AuthService; // prettier-ignore
   public get authService(): AuthService {
     if (!this._authService) {
-      this._authService = new AuthService(this);
+      this._authService = new AuthService(this._httpClient, this._userService);
     }
 
     return this._authService;

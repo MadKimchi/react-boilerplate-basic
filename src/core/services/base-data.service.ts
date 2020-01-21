@@ -1,11 +1,10 @@
 import { InjectorService } from './injector.service';
 import { BaseURLEnum } from '../enums';
+import { Observable, of } from 'rxjs';
+import { HttpClient } from '../http/http-client.class';
 
 export class BaseDataService {
   protected _baseUrl: BaseURLEnum = BaseURLEnum.appService;
-  private _httpClient: any; // TODO: define a http client
 
-  constructor(private _context: InjectorService) {
-    // this._httpClient = _context.httpClient
-  }
+  constructor(protected _httpClient: HttpClient) {}
 }
