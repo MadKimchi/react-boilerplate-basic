@@ -1,18 +1,25 @@
 import React, { FunctionComponent, ReactElement } from 'react';
+import CssBaseline from '@material-ui/core/CssBaseline';
+
 import Routes, { RenderRoutes } from './pages/routes';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { ModalDialog } from './components/modal-dialog/modal-dialog.component';
+import { MenuAppBar } from './components';
 
 const App: FunctionComponent = (): ReactElement => {
   return (
-    <Router>
-      <ModalDialog />
-      <div>
+    <>
+      <CssBaseline />
+      <MenuAppBar />
+      <Router>
+        <ModalDialog />
         <div>
-          <RenderRoutes routes={Routes} />
+          <div>
+            <RenderRoutes routes={Routes} />
+          </div>
         </div>
-      </div>
-    </Router>
+      </Router>
+    </>
   );
 };
 

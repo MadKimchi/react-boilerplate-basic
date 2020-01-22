@@ -1,9 +1,9 @@
-export interface IDRequestSignIn {
+export interface ICredentialDto {
   email: string;
   password: string;
 }
 
-export interface IDResponseSignIn {
+export interface ITokenDto {
   expires_in: number;
   access_token: string;
 }

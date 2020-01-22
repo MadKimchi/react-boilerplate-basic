@@ -4,7 +4,7 @@ import { map } from 'rxjs/operators';
 import { UserService } from './user.service';
 import { BaseDataService } from './base-data.service';
 import { HttpClient } from '../http/http-client.class';
-import { IDRequestSignIn, IDResponseSignIn } from '../http/dtos/sign-in.dto';
+import { ICredentialDto, ITokenDto } from '../http/dtos';
 
 export class AuthService extends BaseDataService {
   public isLoggedIn: boolean = false;
@@ -18,19 +18,16 @@ export class AuthService extends BaseDataService {
   }
 
   // TODO: define the user object by either class or interface and assign it to the useSerivce member
-  public signIn(payload: IDRequestSignIn): Observable<IDResponseSignIn> {
+  public signIn(payload: ICredentialDto): Observable<boolean> {
     return this._httpClient
-      .post<IDRequestSignIn, IDResponseSignIn>(
-        `${this._endpoint}/login`,
-        payload
-      )
+      .post<ICredentialDto, ITokenDto>(`${this._endpoint}/login`, payload)
       .pipe(
-        map((response: IDResponseSignIn) => {
+        map((data: ITokenDto) => {
           // TODO: add storageService logic and save jwt in it
-          this._httpClient.setAuthInterceptor(response.access_token);
+          this._httpClient.setAuthInterceptor(data.access_token);
           this.isLoggedIn = true;
           this.onLogin.next(true);
-          return response;
+          return true;
         })
       );
   }
