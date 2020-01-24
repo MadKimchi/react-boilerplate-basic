@@ -7,6 +7,7 @@ export default class TeamPage extends BasePage<ITeamPageProp> {
     super(props);
     this.navigateBack = this.navigateBack.bind(this);
     this.openModal = this.openModal.bind(this);
+    this.signOut = this.signOut.bind(this);
   }
 
   public render(): ReactNode {
@@ -15,6 +16,7 @@ export default class TeamPage extends BasePage<ITeamPageProp> {
         <p>Team</p>
         <button onClick={this.navigateBack}>go back</button>
         <button onClick={this.openModal}>open a modal</button>
+        <button onClick={this.signOut}>sign out</button>
       </div>
     );
   }
@@ -27,5 +29,9 @@ export default class TeamPage extends BasePage<ITeamPageProp> {
     this.context.modalService.onInjection.next(
       <FormInvite isModalable={true} />
     );
+  }
+
+  private signOut(): void {
+    this.context.authService.signOut();
   }
 }

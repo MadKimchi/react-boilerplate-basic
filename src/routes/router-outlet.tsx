@@ -1,7 +1,6 @@
-import React, { useContext } from 'react';
-import { Route, Switch, RouteProps, Redirect } from 'react-router-dom';
+import React from 'react';
+import { Switch } from 'react-router-dom';
 
-import { ServiceContext, RouteEnum } from '../core';
 import { IRoutePropsWithAuth } from './routes.interface';
 import { RouteWithSubRoutes } from './route';
 

@@ -1,96 +1,116 @@
-import React, { useContext, useEffect } from 'react';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import React, { Component, ReactNode } from 'react';
+import { distinctUntilChanged } from 'rxjs/operators';
+
+import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import Switch from '@material-ui/core/Switch';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormGroup from '@material-ui/core/FormGroup';
+
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
-import { ServiceContext } from '../../core/contexts/service.context';
-import { distinctUntilChanged } from 'rxjs/operators';
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      flexGrow: 1
-    },
-    menuButton: {
-      marginRight: theme.spacing(2)
-    },
-    title: {
-      flexGrow: 1
-    }
-  })
-);
+import { ServiceContext, RouteEnum, IStyled } from '../../core';
+import { styles } from './navigation.style';
+import { Subscription } from 'rxjs';
 
-export function Navigation() {
-  const classes = useStyles();
-  const [auth, setAuth] = React.useState(false);
-  const { authService } = useContext(ServiceContext);
-  useEffect(() => {
-    const subscription = authService.onLogin
+class TopNavigation extends Component<IStyled, {isLoggedIn: boolean, open: boolean}> {
+  static contextType = ServiceContext;
+
+  private _subscription!: Subscription; // prettier-ignore
+
+  constructor(props: IStyled) {
+    super(props);
+    this.state = {
+      isLoggedIn: false,
+      open: false
+    };
+
+    this.handleMenu = this.handleMenu.bind(this);
+    this.handleClose = this.handleClose.bind(this);
+    this.anchorEl = this.anchorEl.bind(this);
+    this.onProfile = this.onProfile.bind(this);
+    this.onMyAccount = this.onMyAccount.bind(this);
+  }
+
+  public componentDidMount(): void {
+    console.log('??????');
+    this._subscription = this.context.authService
+      .onLogin
       .pipe(distinctUntilChanged())
-      .subscribe((isLoggedIn: boolean) => setAuth(isLoggedIn));
-  }, []);
+      .subscribe((isLoggedIn: boolean) => {
+        this.setState({
+          ...this.state, isLoggedIn
+        }, () => {
+          if (!this.state.isLoggedIn) {
+          this.context.routeService.navigate(RouteEnum.login);
+        }
+        });
+      });
+  }
 
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
+  public componentWillUnmount(): void {
+    this._subscription?.unsubscribe();
+  }
 
-  const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
+  public render(): ReactNode {
+    const { classes } = this.props;
+    return (
+      <>
+        {this.state.isLoggedIn && 
+        
+        (
+          <div className={classes.root}>
+            <AppBar position="static">
+              <Toolbar>
+                <IconButton
+                  edge="start"
+                  className={classes.menuButton}
+                  color="inherit"
+                  aria-label="menu"
+                >
+                  <MenuIcon />
+                </IconButton>
+                <Typography variant="h6" className={classes.title}>
+                  LOGO
+                </Typography>
+                <div>
+                  <IconButton
+                    aria-label="account of current user"
+                    aria-controls="menu-appbar"
+                    aria-haspopup="true"
+                    onClick={this.handleMenu}
+                    color="inherit"
+                  >
+                    <AccountCircle />
+                  </IconButton>
+                  <Menu
+                    id="menu-appbar"
+                    anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                    keepMounted
+                    transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+                    open={this.state.open}
+                    onClose={this.handleClose}
+                  >
+                    <MenuItem onClick={this.onProfile}>Profile</MenuItem>
+                    <MenuItem onClick={this.onMyAccount}>My account</MenuItem>
+                  </Menu>
+                </div>
+              </Toolbar>
+            </AppBar>
+          </div>
+        )}
+      </>
+    );
+  }
 
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  return (
-    <div className={classes.root}>
-      {auth && (
-        <AppBar position="static">
-          <Toolbar>
-            <IconButton
-              edge="start"
-              className={classes.menuButton}
-              color="inherit"
-              aria-label="menu"
-            >
-              <MenuIcon />
-            </IconButton>
-            <Typography variant="h6" className={classes.title}>
-              Photos
-            </Typography>
-            <div>
-              <IconButton
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={handleMenu}
-                color="inherit"
-              >
-                <AccountCircle />
-              </IconButton>
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorEl}
-                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                keepMounted
-                transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-                open={open}
-                onClose={handleClose}
-              >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>My account</MenuItem>
-              </Menu>
-            </div>
-          </Toolbar>
-        </AppBar>
-      )}
-    </div>
-  );
+  private handleMenu(): void {}
+  private handleClose(): void {}
+  private anchorEl(): void {}
+  private onProfile(): void {}
+  private onMyAccount(): void {}
 }
+
+export const Navigation = withStyles(styles)(TopNavigation);

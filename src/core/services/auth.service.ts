@@ -31,4 +31,9 @@ export class AuthService extends BaseDataService {
         })
       );
   }
+
+  public signOut(): void {
+    this.isLoggedIn = false;
+    this.onLogin.next(this.isLoggedIn);
+  }
 }

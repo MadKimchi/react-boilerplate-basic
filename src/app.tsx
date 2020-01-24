@@ -8,6 +8,7 @@ import RouterOutlet from './routes/router-outlet';
 import Routes from './routes/routes';
 
 const App: FunctionComponent = (): ReactElement => {
+  console.log('????');
   return (
     <>
       <CssBaseline />

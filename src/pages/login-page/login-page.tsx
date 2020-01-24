@@ -2,8 +2,6 @@ import React, { ReactNode } from 'react';
 import { Subscription } from 'rxjs';
 
 import { withStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 
 import styles from './login-page.style';
@@ -29,14 +27,9 @@ class LoginPage extends BasePage<ILoginPageProp> {
   }
 
   public render(): ReactNode {
-    const { classes } = this.props;
-    console.log('rerendering');
-    console.log(this.context.authService.isLoggedIn);
     return (
       <Container maxWidth="lg">
-        {/* <Card className={classes.card}> */}
           <FormSignIn />
-        {/* </Card> */}
       </Container>
     );
   }
