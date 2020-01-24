@@ -9,12 +9,13 @@ export class MessageService {
   public sendMessage<T>(
     sender: IdentifierEnum,
     receiver: IdentifierEnum,
-    data: T
+    data: T,
+    identifier?: string
   ): void {
-    this.onMessage.next({ sender, receiver, data } as IMessage<T>);
+    this.onMessage.next({ sender, receiver, data, identifier } as IMessage<T>);
   }
 
-  public receiveMessage<T>(
+  public getMessage<T>(
     receiver: IdentifierEnum,
     sender: IdentifierEnum,
     extraFilter: boolean = true
@@ -22,6 +23,27 @@ export class MessageService {
     return this.onMessage.pipe(
       filter((message: IMessage<T>) => {
         return (
+          message.receiver === receiver &&
+          message.sender === sender &&
+          extraFilter
+        );
+      }),
+      map((message: IMessage<T>) => {
+        return message.data;
+      })
+    );
+  }
+
+  public getMessageByIdentity<T>(
+    receiver: IdentifierEnum,
+    sender: IdentifierEnum,
+    identifier: string,
+    extraFilter: boolean = true
+  ): Observable<T> {
+    return this.onMessage.pipe(
+      filter((message: IMessage<T>) => {
+        return (
+          message.identifier === identifier &&
           message.receiver === receiver &&
           message.sender === sender &&
           extraFilter

@@ -1,9 +1,11 @@
 import React, { ReactNode } from 'react';
-import { INotFoundPageProp } from './interfaces';
-import { BasePage } from '../../components/base-page/base-page.component';
+
+import { BasePage } from '../../components';
+import { RouteEnum } from '../../core';
+import { INotFoundPageProp } from './not-found-page.interface';
 
 export default class NotFoundPage extends BasePage<INotFoundPageProp> {
-  constructor(props: any) {
+  constructor(props: INotFoundPageProp) {
     super(props);
     this.navigateBack = this.navigateBack.bind(this);
   }
@@ -17,7 +19,6 @@ export default class NotFoundPage extends BasePage<INotFoundPageProp> {
   }
 
   private navigateBack(event: any): void {
-    // this.context.routeService.goBack();
-    this.context.routeService.navigate('login');
+    this.context.routeService.navigate(RouteEnum.login);
   }
 }

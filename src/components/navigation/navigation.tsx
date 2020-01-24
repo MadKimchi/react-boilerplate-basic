@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export function MenuAppBar() {
+export function Navigation() {
   const classes = useStyles();
   const [auth, setAuth] = React.useState(false);
   const { authService } = useContext(ServiceContext);

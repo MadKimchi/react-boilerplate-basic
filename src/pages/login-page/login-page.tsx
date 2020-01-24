@@ -1,19 +1,16 @@
 import React, { ReactNode } from 'react';
-import { withStyles } from '@material-ui/core/styles';
+import { Subscription } from 'rxjs';
 
+import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 
 import styles from './login-page.style';
-import { ILoginPageProp } from './interfaces';
+import { ILoginPageProp } from './login-page.interface';
 
-import { ServiceContext } from '../../core/contexts/service.context';
-import { Subscription } from 'rxjs';
-import FormSignIn from '../../components/forms/form-sign-in/form-sign-in.component';
-import { BasePage } from '../../components/base-page/base-page.component';
-import { RouteEnum } from '../../core/enums';
-import { PageLayout } from '../../components';
+import { ServiceContext, RouteEnum } from '../../core';
+import { BasePage, FormSignIn } from '../../components';
 
 class LoginPage extends BasePage<ILoginPageProp> {
   static contextType = ServiceContext;

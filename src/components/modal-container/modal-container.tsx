@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export const ModalDialog: FunctionComponent = (): ReactElement => {
+export const ModalContainer: FunctionComponent = (): ReactElement => {
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
   const [open, setOpen] = React.useState(false);

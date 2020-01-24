@@ -1,4 +1,5 @@
 import React, {
+  ChangeEvent,
   ReactElement,
   useState,
   useContext,
@@ -7,35 +8,44 @@ import React, {
 import FilledInput from '@material-ui/core/FilledInput';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
+import Button from '@material-ui/core/Button';
 
 import { ServiceContext } from '../../../core/contexts/service.context';
 import { RouteEnum } from '../../../core/enums';
+import { FormGroup, FormControlLabel, Checkbox } from '@material-ui/core';
 
-export const FormInvite: FunctionComponent<{
+export const FormSignIn: FunctionComponent<{
   isModalable?: boolean;
 }> = ({ isModalable }): ReactElement => {
-  const [payload, setPayload] = useState({ email: '', password: '' });
+  const [payload, setPayload] = useState({
+    email: '',
+    password: '',
+    rememberMe: false
+  });
   const { authService, routeService } = useContext(ServiceContext);
 
-  function onEmailChange(event: React.ChangeEvent<HTMLInputElement>): void {
+  function onEmailChange(event: ChangeEvent<HTMLInputElement>): void {
     setPayload({ ...payload, email: event.target.value });
   }
 
-  function onPasswordChange(event: React.ChangeEvent<HTMLInputElement>): void {
+  function onPasswordChange(event: ChangeEvent<HTMLInputElement>): void {
     setPayload({ ...payload, password: event.target.value });
+  }
+
+  function onRememberMe(event: ChangeEvent<HTMLInputElement>): void {
+    setPayload({ ...payload, rememberMe: event.target.checked });
   }
 
   function onSignIn(): void {
     authService.signIn(payload).subscribe(isLoggedIn => {
       if (isLoggedIn) {
         routeService.navigate(RouteEnum.team);
-        console.log(isModalable);
       }
     });
   }
 
   return (
-    <form noValidate autoComplete="off">
+    <FormGroup>
       <FormControl variant="filled">
         <InputLabel htmlFor="field-email">Email</InputLabel>
         <FilledInput
@@ -52,11 +62,16 @@ export const FormInvite: FunctionComponent<{
           onChange={onPasswordChange}
         />
       </FormControl>
-      <button type="button" onClick={onSignIn}>
+      <FormControlLabel
+        control={
+          <Checkbox checked={payload.rememberMe} onChange={onRememberMe} />
+        }
+        label="Remember Me"
+      />
+      <Button variant="contained" color="primary" onClick={onSignIn}>
         Sign In
-      </button>
-    </form>
+      </Button>
+    </FormGroup>
   );
+  // </form>
 };
-
-export default FormInvite;

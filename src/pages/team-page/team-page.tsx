@@ -1,7 +1,6 @@
 import React, { ReactNode } from 'react';
-import { ITeamPageProp } from './interfaces';
-import { BasePage } from '../../components/base-page/base-page.component';
-import FormInvite from '../../components/forms/form-invite/form-invite.component';
+import { ITeamPageProp } from './team-page.interface';
+import { BasePage, FormInvite } from '../../components';
 
 export default class TeamPage extends BasePage<ITeamPageProp> {
   constructor(props: ITeamPageProp) {
@@ -25,7 +24,6 @@ export default class TeamPage extends BasePage<ITeamPageProp> {
   }
 
   private openModal(): void {
-    // this.context.modalService.showModal(FormSignIn);
     this.context.modalService.onInjection.next(
       <FormInvite isModalable={true} />
     );
