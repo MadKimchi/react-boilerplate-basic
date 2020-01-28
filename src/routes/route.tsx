@@ -21,7 +21,7 @@ export function RouteWithSubRoutes(route: IRoutePropsWithAuth) {
       path={route.path}
       exact={route.exact}
       component={route.component}
-      // render={props => <route.component {...props} routes={route.routes} />}
+      // render={props => route.component}
     />
   );
 }

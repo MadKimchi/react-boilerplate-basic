@@ -1,5 +1,5 @@
 import React, { FunctionComponent, ReactElement } from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 
 import CssBaseline from '@material-ui/core/CssBaseline';
 
@@ -8,14 +8,13 @@ import RouterOutlet from './routes/router-outlet';
 import Routes from './routes/routes';
 
 const App: FunctionComponent = (): ReactElement => {
-  console.log('????');
   return (
     <>
       <CssBaseline />
       <Navigation />
-      <Router>
+      <BrowserRouter>
         <RouterOutlet routes={Routes} />
-      </Router>
+      </BrowserRouter>
       <ModalContainer />
     </>
   );

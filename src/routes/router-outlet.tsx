@@ -21,9 +21,9 @@ export default function RouterOutlet({
 
   return (
     <Switch>
-      {routes.map((route: IRoutePropsWithAuth, index: number) => {
-        return <RouteWithSubRoutes key={index} {...route} />;
-      })}
+      {routes.map((route: IRoutePropsWithAuth, index: number) => (
+        <RouteWithSubRoutes key={index} {...route} />
+      ))}
     </Switch>
   );
 }

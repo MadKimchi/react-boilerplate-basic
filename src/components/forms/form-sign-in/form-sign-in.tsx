@@ -12,11 +12,15 @@ import Button from '@material-ui/core/Button';
 
 import { ServiceContext } from '../../../core/contexts/service.context';
 import { RouteEnum } from '../../../core/enums';
+import { useStyles } from './form-sign-in.style';
 import { FormGroup, FormControlLabel, Checkbox } from '@material-ui/core';
+import { Subject } from 'rxjs';
 
 export const FormSignIn: FunctionComponent<{
+  errorSubject: Subject<boolean>;
   isModalable?: boolean;
-}> = ({ isModalable }): ReactElement => {
+}> = ({ errorSubject, isModalable }): ReactElement => {
+  const classes = useStyles();
   const [payload, setPayload] = useState({
     email: '',
     password: '',
@@ -37,16 +41,21 @@ export const FormSignIn: FunctionComponent<{
   }
 
   function onSignIn(): void {
-    authService.signIn(payload).subscribe(isLoggedIn => {
-      if (isLoggedIn) {
-        routeService.navigate(RouteEnum.team);
+    authService.signIn(payload).subscribe(
+      isLoggedIn => {
+        if (isLoggedIn) {
+          routeService.navigate(RouteEnum.team);
+        }
+      },
+      (error: Error) => {
+        errorSubject.next(true);
       }
-    });
+    );
   }
 
   return (
     <FormGroup>
-      <FormControl variant="filled">
+      <FormControl className={classes.formControl} variant="filled">
         <InputLabel htmlFor="field-email">Email</InputLabel>
         <FilledInput
           id="field-email"
@@ -58,6 +67,7 @@ export const FormSignIn: FunctionComponent<{
         <InputLabel htmlFor="field-password">Password</InputLabel>
         <FilledInput
           id="field-password"
+          type="password"
           value={payload.password}
           onChange={onPasswordChange}
         />
@@ -73,5 +83,4 @@ export const FormSignIn: FunctionComponent<{
       </Button>
     </FormGroup>
   );
-  // </form>
 };
